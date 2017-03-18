@@ -37,54 +37,57 @@
 		}
 		
 		var expiretime = 10;
-		var MarkerManager = (function() {
-			function MarkerManager() {}
-			MarkerManager.AddPokemonSimple = function(name, lat, lng) {
-				var icon = {
-					url: 'images/' + name.toLowerCase() + '.png',
-					scaledSize: new google.maps.Size(40, 40),
-				};
-				var contentString = "<p><span style=\"font-size: 14pt;\">" + name + "<br /></span>Expires in 10m</p>";
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(lat, lng),
-					icon: icon,
-					map: map
-				});
-				var infowindow = new google.maps.InfoWindow({
-					content: contentString
-				});
-				marker.addListener('click', function() {
-					infowindow.open(map, marker);
-				});
-			};
-			MarkerManager.AddPokemon = function(name, lat, lng, attack, defense, stamina, quickMove, chargeMove) {
-				var icon = {
-					url: 'images/' + name.toLowerCase() + '.png',
-					scaledSize: new google.maps.Size(40, 40),
-				};
-				var contentString = "<p><span style=\"font-size: 14pt;\">" + name + "<br /></span>IVs: <strong>" + CalculateIVs(attack, defense, stamina).toString() + "% (" + attack + "/" + defense + "/" + stamina + ")</strong><br />Moves: <strong>" + quickMove + ", " + chargeMove + "</strong><br />Expires in 10m</p>";
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(lat, lng),
-					icon: icon,
-					map: map
-				});
-				var infowindow = new google.maps.InfoWindow({
-					content: contentString
-				});
-				marker.addListener('click', function() {
-					infowindow.open(map, marker);
-				});
-			};
-			return MarkerManager;
-		}());
+		var MarkerManager = (function () {
+    function MarkerManager() {
+    }
+    MarkerManager.AddPokemonSimple = function (name, lat, lng) {
+        var icon = {
+            url: 'images/' + name.toLowerCase() + '.png',
+            scaledSize: new google.maps.Size(40, 40),
+        };
+        var contentString = "<p><span style=\"font-size: 14pt;\">" + name + "<br /></span>Expires in " + expiretime + "</p>";
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            icon: icon,
+            map: map
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+    };
+    MarkerManager.AddPokemon = function (data) {
+        var icon = {
+            url: 'images/' + name.toLowerCase() + '.png',
+            scaledSize: new google.maps.Size(40, 40),
+        };
+        var contentString = "<p><span style=\"font-size: 14pt;\">" + data.Name + "<br /></span>IVs: <strong>" + CalculateIVs(data.Ivs.Attack, data.Ivs.Defense, data.Ivs.Stamina) + "% (" + data.Ivs.Attack + "/" + data.Ivs.Defense + "/" + data.Ivs.Stamina + ")</strong><br />Moves: <strong>" + data.Moves.Quick + ", " + data.Moves.Charge + "</strong><br />Expires in " + expiretime + "m</p>";
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            icon: icon,
+            map: map
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+    };
+    MarkerManager.AddPokestop = function (name, lat, long, description, pic) {
+    };
+    return MarkerManager;
+}());
+MarkerManager.expiretime = 10;
+function CalculateIVs(atk, def, sta) {
+    return Math.round((((atk + def + sta) / 45) * 10000) / 100);
+}
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes * 60000);
+}
 
-		function CalculateIVs(atk, def, sta) {
-			return Math.round((((atk + def + sta) / 45) * 10000) / 100);
-		}
-
-		function addMinutes(date, minutes) {
-			return new Date(date.getTime() + minutes * 60000);
-		}
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKJ1Vaav1VXekSGtkiYy0HW_u8gqYsMtI&callback=initMap">
 	</script>
