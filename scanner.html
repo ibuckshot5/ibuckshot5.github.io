@@ -38,7 +38,7 @@ var MarkerManager = (function () {
     }
     MarkerManager.AddPokemonSimple = function (name, lat, lng) {
         var icon = {
-            url: 'file:///C:/Users/Alex/Downloads/images/' + name.toLowerCase() + '.png',
+            url: 'images/' + name.toLowerCase() + '.png',
             scaledSize: new google.maps.Size(40, 40),
         };
         var contentString = "<p><span style=\"font-size: 14pt;\">" + name + "<br /></span>Expires in " + expiretime + "</p>";
@@ -56,7 +56,7 @@ var MarkerManager = (function () {
     };
     MarkerManager.AddPokemon = function (data) {
         var icon = {
-            url: 'file:///C:/Users/Alex/Downloads/images/' + name.toLowerCase() + '.png',
+            url: 'images/' + name.toLowerCase() + '.png',
             scaledSize: new google.maps.Size(40, 40),
         };
         var contentString = "<p><span style=\"font-size: 14pt;\">" + data.Name + "<br /></span>IVs: <strong>" + CalculateIVs(data.Ivs.Attack, data.Ivs.Defense, data.Ivs.Stamina) + "% (" + data.Ivs.Attack + "/" + data.Ivs.Defense + "/" + data.Ivs.Stamina + ")</strong><br />Moves: <strong>" + data.Moves.Quick + ", " + data.Moves.Charge + "</strong><br />Expires in " + expiretime + "m</p>";
