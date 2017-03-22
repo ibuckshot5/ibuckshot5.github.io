@@ -39,9 +39,10 @@
 		var expiretime = 10;
 		var MarkerManager = (function() {
 			function MarkerManager() {}
-			MarkerManager.AddPokemonSimple = function(name, lat, lng) {
+			MarkerManager.AddPokemonSimple = function(name, lat, lng, isShiny) {
+			if (!isShiny) {
 				var icon = {
-					url: 'file:///C:/Users/Alex/Downloads/image%20[www.imagesplitter.net]/' + name.toLowerCase() + '.png',
+					url: 'http://play.pokemonshowdown.com/sprites/bw/' + name.toLowerCase() + '.png',
 					scaledSize: new google.maps.Size(40, 40),
 				};
 				var contentString = "<p><span style=\"font-size: 14pt;\">" + name + "<br /></span>Expires in 10m</p>";
@@ -55,7 +56,24 @@
 				});
 				marker.addListener('click', function() {
 					infowindow.open(map, marker);
+				}); } else {
+				var icon = {
+					url: 'http://play.pokemonshowdown.com/sprites/bw-shiny/' + name.toLowerCase() + '.png',
+					scaledSize: new google.maps.Size(40, 40),
+				};
+				var contentString = "<p><span style=\"font-size: 14pt;\">" + name + " (SHINY)<br /></span>Expires in 10m</p>";
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(lat, lng),
+					icon: icon,
+					map: map
 				});
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+				marker.addListener('click', function() {
+					infowindow.open(map, marker);
+				});
+}
 			};
 			MarkerManager.AddPokemon = function(name, lat, lng, attack, defense, stamina, quickMove, chargeMove, isShiny) {
 			if (!isShiny) {
